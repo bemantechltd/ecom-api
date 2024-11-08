@@ -1,0 +1,49 @@
+# version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: snop-api
+    restart: unless-stopped
+    working_dir: /var/www
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www
+      - ./php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - snop
+
+  webserver:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - snop
+
+  db:
+    platform: linux/x86_64 # for mac m1 chip 
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    networks:
+      - snop
+
+networks:
+  snop:
+    driver: bridge

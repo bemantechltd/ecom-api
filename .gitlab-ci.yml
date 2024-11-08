@@ -1,0 +1,40 @@
+Deploy staging:
+  stage: deploy
+  # type: deploy
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh tamannaorange@67.227.213.5 "cd ~/public_html/api && git stash && git pull && composer install && php artisan migrate && php artisan config:cache && php artisan cache:clear && rm -rf ~/public_html/api/public/storage && php artisan storage:link  && exit "
+  environment:
+    name: staging
+    url: https://api-tamanna.orangebd.com
+  only:
+    - staging-test
+
+Deploy live:
+  stage: deploy
+  # type: deploy
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_LIVE")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh medquicker@67.227.227.252 "cd ~/public_html/api && git stash && git pull && composer install && php artisan migrate && php artisan config:cache && php artisan cache:clear && rm -rf ~/public_html/api/public/storage && php artisan storage:link  && exit "
+  environment:
+    name: production
+    url: https://api.medquicker.com
+  # when: manual
+  only:
+    - master-test
