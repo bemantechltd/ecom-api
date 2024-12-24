@@ -32,7 +32,7 @@ services:
   db:
     platform: linux/x86_64 # for mac m1 chip 
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql_ecom
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -41,6 +41,19 @@ services:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
+    networks:
+      - snop
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_ecom
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
     networks:
       - snop
 
