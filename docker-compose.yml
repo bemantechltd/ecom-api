@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     ports:
-      - "9000:9000"
+      - "9001:9000"
     volumes:
       - .:/var/www
       - ./php.ini:/usr/local/etc/php/conf.d/local.ini
