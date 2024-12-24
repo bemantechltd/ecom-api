@@ -1,4 +1,4 @@
-# version: '3.8'
+version: '3.8'
 
 services:
   app:
@@ -45,7 +45,7 @@ services:
       - snop
 
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin_ecom
     depends_on:
       - db
