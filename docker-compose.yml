@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     ports:
-      - "9000:9000"
+      - "9002:9000"
     volumes:
       - .:/var/www
       - ./php.ini:/usr/local/etc/php/conf.d/local.ini
@@ -24,15 +24,19 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www
-      - ./nginx:/etc/nginx/conf.d
+      - type: bind
+        source: .
+        target: /var/www
+      - type: bind
+        source: ./nginx
+        target: /etc/nginx/conf.d
     networks:
       - snop
 
   db:
     platform: linux/x86_64 # for mac m1 chip 
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql_ecom
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -41,6 +45,19 @@ services:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
+    networks:
+      - snop
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_ecom
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
     networks:
       - snop
 
