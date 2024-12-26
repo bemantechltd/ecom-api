@@ -17,9 +17,9 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/health',function() {
-    return 'ok';
-});
+// Route::get('/health',function() {
+//     return 'ok';
+// });
 
 Route::group(['middleware' => 'auth:api'] , function() {
     Route::prefix('site-basic-config')->group(function(){

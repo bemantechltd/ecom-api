@@ -19,6 +19,7 @@ use Auth;
 use DB;
 use Hash;
 use Mail;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {    
@@ -248,6 +249,7 @@ class UserController extends Controller
         // return Auth::user();
         // return $request->session()->all();        
 
+        $getUser = '';
         $loginData = [];
 
         if(filter_var($request['login_id'], FILTER_VALIDATE_EMAIL)){
@@ -257,12 +259,13 @@ class UserController extends Controller
         }else{
             return response()->json(['msg' => 'Invalid email or mobile number','status' => 0] , 200);
         }
-
+        
+        
         if (Auth::attempt($loginData)) {                
             $getUser = $obj::where('id', Auth::id())->with(['UserInfo','RoleInfo'])->first();            
         }
 
-        if(isset($getUser)){
+        if($getUser != ''){
             // return $getUser;
             // if($getUser->mobile==NULL || $getUser->user_type!==3){
             //     return response()->json(['status' => 0] , 200);
