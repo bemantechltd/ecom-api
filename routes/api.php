@@ -18,10 +18,12 @@ use Illuminate\Http\Request;
 // });
 
 Route::get('/health',function() {
-    return 'ok';
+    return 'okk2';
 });
 
-Route::group(['middleware' => 'auth:api'] , function() {
+Route::group([
+    // 'middleware' => 'auth:api'
+    ] , function() {
     Route::prefix('site-basic-config')->group(function(){
         Route::get('/' , 'Api\BasicConfigController@get');
         Route::post('/' , 'Api\BasicConfigController@store');
@@ -30,6 +32,15 @@ Route::group(['middleware' => 'auth:api'] , function() {
     Route::prefix('logo-info')->group(function(){
         Route::get('/' , 'Api\LogoInfoController@get');
         Route::post('/' , 'Api\LogoInfoController@store');
+    });
+
+    Route::prefix('auth')->group(function(){
+        Route::post('login', 'Api\UserController@UserLogin');
+        Route::post('social-login', 'Api\UserController@SocialUserLogin');
+        Route::post('register', 'Api\UserController@UserSignup');
+        Route::post('forgot-password', 'Api\UserController@ForgotPassword');
+        Route::post('activate-account', 'Api\UserController@UserActivation');
+        Route::post('code-generate', 'Api\UserController@AuthCodeGenerator');
     });
 
     Route::prefix('report-data')->group(function(){

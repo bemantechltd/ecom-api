@@ -24,14 +24,14 @@
         Route::post('login' , 'Api\UserController@AdminLogin');
     });
 
-    Route::prefix('auth')->group(function(){
-        Route::post('login', 'Api\UserController@UserLogin');
-        Route::post('social-login', 'Api\UserController@SocialUserLogin');
-        Route::post('register', 'Api\UserController@UserSignup');
-        Route::post('forgot-password', 'Api\UserController@ForgotPassword');
-        Route::post('activate-account', 'Api\UserController@UserActivation');
-        Route::post('code-generate', 'Api\UserController@AuthCodeGenerator');
-    });
+    // Route::prefix('auth')->group(function(){
+    //     Route::post('login', 'Api\UserController@UserLogin');
+    //     Route::post('social-login', 'Api\UserController@SocialUserLogin');
+    //     Route::post('register', 'Api\UserController@UserSignup');
+    //     Route::post('forgot-password', 'Api\UserController@ForgotPassword');
+    //     Route::post('activate-account', 'Api\UserController@UserActivation');
+    //     Route::post('code-generate', 'Api\UserController@AuthCodeGenerator');
+    // });
 
     Route::prefix('static-page-infos')->group(function(){
         Route::get('/load' , 'Api\StaticPageInfoController@load');
