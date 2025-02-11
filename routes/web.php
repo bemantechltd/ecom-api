@@ -11,11 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/lp-bulk-data-crawler', 'Api\ProductsController@lazzPharmaData');
+
+
+
+// Route::get('/check', function () {
+//     return "hello";
+//     return view('welcome');
+// });
 
 
 // Route::get('/live/timeline-status', 'Api\OrderInfoController@liveOrderTimelineStatus');
