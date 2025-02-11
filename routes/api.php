@@ -17,9 +17,11 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/health',function() {
-    return 'okk2';
-});
+Route::get('/health', 'HealthCheckController@check')->name('health.check');
+
+// Public routes should be at the top, before any middleware groups
+Route::get('/promotional-banners/load', 'Api\PromotionalBannerInfoController@load')
+    ->name('promotional.banners.load');
 
 Route::group([
     // 'middleware' => 'auth:api'

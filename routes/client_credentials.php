@@ -42,9 +42,9 @@
         Route::get('/load' , 'Api\CategoriesController@load');
     });
 
-    Route::prefix('promotional-banners')->group(function(){
-        Route::get('/load' , 'Api\PromotionalBannerInfoController@load');
-    });
+    // Route::prefix('promotional-banners')->group(function(){
+    //     Route::get('/load' , 'Api\PromotionalBannerInfoController@load');
+    // });
 
     Route::prefix('pharma-companies')->group(function(){
         Route::get('/load' , 'Api\PharmaceuticalsCompaniesController@load');

@@ -102,29 +102,15 @@ class PromotionalBannerInfoController extends Controller
         return PromotionalBannersResource::collection($getData);
     }
 
-    public function load(PromotionalBannerInfo $obj, Request $request)
+    public function load(Request $request)
     {
-        // return $request->all();
-        $limit = $request->has('limit')?$request['limit']:'';
-        $page = $request->has('page')?$request['page']:1;
+        $limit = $request->query('limit', 8);
+        $banners = PromotionalBannerInfo::take($limit)->get();
         
-        // Cache key init
-        $cacheKey = $this->cache_tag_name.":load:{$page}";
-        
-        $getResponseData = Cache::tags([$this->cache_tag_name])->rememberForever($cacheKey, function() use($obj, $limit){
-            
-            if($limit>0) $getData = $obj::select('*')
-            ->where('status', 1)
-            ->take($limit)->get();
-            else $getData = $obj::select('*')
-            ->where('status', 1)
-            ->get();
-    
-            // return response()->json($getData, 200);
-            return PromotionalBannersResource::collection($getData);
-        });
-        
-        return $getResponseData;
+        return response()->json([
+            'success' => true,
+            'data' => $banners
+        ]);
     }
 
     /**
